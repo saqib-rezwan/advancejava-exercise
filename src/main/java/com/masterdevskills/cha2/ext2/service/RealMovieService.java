@@ -196,11 +196,13 @@ public class RealMovieService {
 	 */
 	public Optional<String> findAnyMovieTitleWithImdbRatingEqualOrGreater(double rating) {
 
+		//.sorted(Comparator.comparing(Movie::getImdbRating)
+
 		return InMemoryMovieService.getInstance().findAllMovies()
 				.stream()
 				.filter(movie -> movie.getImdbRating() >= rating)
+				.sorted(Comparator.comparing(Movie::getImdbRating))
 				.map(Movie::getTitle)
-				.peek(System.out::println)
 				.findFirst();
 	}
 
@@ -213,10 +215,10 @@ public class RealMovieService {
 	 * @see Stream#map(Function)
 	 */
 	public Optional<String> findFirstMovieTitleWithImdbRatingEqualOrGreater(double rating) {
-
 		return InMemoryMovieService.getInstance().findAllMovies()
 				.stream()
 				.filter(movie -> movie.getImdbRating() >= rating)
+				.sorted(Comparator.comparing(Movie::getImdbRating))
 				.map(Movie::getTitle)
 				.findFirst();
 	}
@@ -243,7 +245,9 @@ public class RealMovieService {
 	 */
 	public List<Movie> sortByImdbRatingAndThenTitle() {
 
-		throw new RuntimeException("TODO://ImplementIt");
+		return InMemoryMovieService.getInstance().findAllMovies()
+				.stream()
+				.sorted(Comparator.comparing(Movie::getImdbRating).thenComparing(Movie::getTitle)).collect(Collectors.toList());
 	}
 
 	/**
@@ -283,6 +287,7 @@ public class RealMovieService {
 	public Map<String, Long> findNumberOfDistinctMoviesOfEachDirector() {
 		return InMemoryMovieService.getInstance().findAllMovies()
 				.stream()
+				.distinct()
 				.collect(Collectors.toMap(Movie::getDirector, e -> 1L, Math::addExact));
 	}
 
