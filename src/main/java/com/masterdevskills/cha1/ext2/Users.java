@@ -24,6 +24,7 @@ package com.masterdevskills.cha1.ext2;
 
 import java.util.List;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 /**
  * @author A N M Bazlur Rahman @bazlur_rahman
@@ -43,7 +44,7 @@ public class Users {
 	 * @see User#setStatus(Status)
 	 */
 	public static void activatedAll(List<User> users, Status status) {
-		throw new RuntimeException("NotImplemented");
+		users.forEach(user -> user.setStatus(status));
 	}
 
 	/**
@@ -57,7 +58,8 @@ public class Users {
 	 */
 
 	public static String makeStringOfAllUsernames(List<User> users) {
-
-		throw new RuntimeException("NotImplemented");
+		return users.stream()
+				.map(User::getUsername)
+				.collect(Collectors.joining(","));
 	}
 }

@@ -22,10 +22,15 @@
 
 package com.masterdevskills.cha2.ext1;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.IntSupplier;
+import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -35,7 +40,7 @@ import java.util.stream.Stream;
 public class NumericStreams {
 
 	/**
-	 * TODO write a method that will return  a fibonacci series
+	 * TODO write a method that will return a fibonacci series
 	 * Use stream api and lambda expression
 	 *
 	 * @see Stream#iterate(Object, UnaryOperator)
@@ -44,7 +49,23 @@ public class NumericStreams {
 	 * @see Stream#collect(Collector)
 	 */
 	public static List<Integer> generate(int series) {
+		return Stream.generate(new FibonacciSupplier())
+				.limit(series)
+				.collect(Collectors.toList());
+	}
 
-		throw new RuntimeException("TODO://ImplementIt");
+	public static class FibonacciSupplier implements Supplier<Integer> {
+
+		private int x1 = 1;
+		private int x2 = 1;
+
+		@Override
+		public Integer get() {
+			int result = x1;
+			int x3 = x2 + x1;
+			x1 = x2;
+			x2 = x3;
+			return result;
+		}
 	}
 }
