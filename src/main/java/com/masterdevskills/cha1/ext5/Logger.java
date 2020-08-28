@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 //TODO: implement info, trace, debug, warn
 public class Logger implements Log {
+
 	private static final String DELIM = "{}";
 	private volatile boolean enabled = false;
 
@@ -28,6 +29,48 @@ public class Logger implements Log {
 	public void info(final String message, final Object... params) {
 		if (isLoggable()) {
 			System.out.println(formatMessage(message, params));
+		}
+	}
+
+	@Override
+	public void trace(final String message, final Object... params) {
+		if (isLoggable()) {
+			System.out.println(formatMessage(message, params));
+		}
+	}
+
+	@Override
+	public void trace(String message, Supplier<Object[]> params) {
+		if (isLoggable()) {
+			System.out.println(formatMessage(message, params.get()));
+		}
+	}
+
+	@Override
+	public void debug(String message, Object... params) {
+		if (isLoggable()) {
+			System.out.println(formatMessage(message, params));
+		}
+	}
+
+	@Override
+	public void debug(String message, Supplier<Object[]> params) {
+		if (isLoggable()) {
+			System.out.println(formatMessage(message, params.get()));
+		}
+	}
+
+	@Override
+	public void warn(String message, Object... params) {
+		if (isLoggable()) {
+			System.out.println(formatMessage(message, params));
+		}
+	}
+
+	@Override
+	public void warn(String message, Supplier<Object[]> params) {
+		if (isLoggable()) {
+			System.out.println(formatMessage(message, params.get()));
 		}
 	}
 
