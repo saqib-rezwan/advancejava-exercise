@@ -38,15 +38,17 @@ public class ThreadPool {
 //			lock.notifyAll();
 //			return queue.poll();
 
-		while (queue.isEmpty()) {
-			try {
-				lock.wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+		synchronized (queue){
+			while (queue.isEmpty()) {
+				try {
+					queue.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
+			queue.notifyAll();
+			return queue.poll();
 		}
-		lock.notifyAll();
-		return queue.poll();
 
 	}
 
