@@ -1,7 +1,12 @@
 package com.masterdevskills.cha2.ext4;
 
+import com.masterdevskills.cha2.ext2.model.Movie;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author A N M Bazlur Rahman @bazlur_rahman
@@ -21,7 +26,15 @@ public class HrService {
 
 	public Map<String, Long> findAllDepartmentNameExceedingSalaries(List<? extends Employee> employees, long salaryExceeding) {
 
-		throw new RuntimeException("TODO//ImplementIt");
+		return employees.stream()
+				.collect(
+						Collectors.collectingAndThen(
+								Collectors.toMap(e -> e.getDepartment().getName(), Employee::getSalary, Math::addExact),
+								map -> {
+									map.values().removeIf(value -> value <= salaryExceeding);
+									return map;
+								}));
+
 	}
 
 }
