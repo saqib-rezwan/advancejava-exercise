@@ -9,7 +9,7 @@ import java.util.Queue;
 // Hint: Since LinkedList is not thread-safe, we need to synchronize it
 public class ThreadPool {
 
-	private ThreadGroup threadGroup = new ThreadGroup("ThreadGroup ");
+	private ThreadGroup threadGroup = new ThreadGroup("ThreadGroup");
 	private LinkedList<Runnable> queue = new LinkedList<>();
 	private int poolSize;
 
