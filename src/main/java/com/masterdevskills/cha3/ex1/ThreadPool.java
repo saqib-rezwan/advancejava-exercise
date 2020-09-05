@@ -16,7 +16,7 @@ public class ThreadPool {
 	public ThreadPool(int poolSize) {
 		this.poolSize = poolSize;
         for (int i = 0; i < poolSize; i++) {
-            Worker worker = new Worker(threadGroup, (String.valueOf(i)));
+            Worker worker = new Worker(threadGroup, String.valueOf(i));
             worker.start();
         }
 	}
