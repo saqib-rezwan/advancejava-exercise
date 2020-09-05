@@ -9,34 +9,19 @@ import java.util.Queue;
 // Hint: Since LinkedList is not thread-safe, we need to synchronize it
 public class ThreadPool {
 
-	private ThreadGroup threadGroup = new ThreadGroup("ThreadGroup");
-	private Queue<Runnable> queue = new LinkedList<>();
-	private Object lock = new Object();
+	private ThreadGroup threadGroup = new ThreadGroup("ThreadGroup ");
+	private LinkedList<Runnable> queue = new LinkedList<>();
 	private int poolSize;
 
 	public ThreadPool(int poolSize) {
 		this.poolSize = poolSize;
-		for (int i = 0; i < poolSize; i++) {
-			Worker worker = new Worker(threadGroup, "Thread"+i);
-			worker.run();
-		}
+        for (int i = 0; i < poolSize; i++) {
+            Worker worker = new Worker(threadGroup, (String.valueOf(i)));
+            worker.start();
+        }
 	}
 
 	private synchronized Runnable take() throws InterruptedException {
-		//TODO if the LinkedList is empty, we wait
-		// remove the first job from the LinkedList and return it
-//		throw new UnsupportedOperationException("not implemented");
-
-//		synchronized (lock){
-//			while (queue.isEmpty()) {
-//				try {
-//					lock.wait();
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//			lock.notifyAll();
-//			return queue.poll();
 
 		synchronized (queue){
 			while (queue.isEmpty()) {
@@ -47,37 +32,24 @@ public class ThreadPool {
 				}
 			}
 			queue.notifyAll();
-			return queue.poll();
+            return queue.removeLast();
 		}
-
 	}
 
 	public void submit(Runnable job) {
 		//TODO Add the job to the LinkedList and notifyAll
 
-//		System.out.println("submit invoked!");
-//		synchronized (lock){
-//			while (queue.size() == poolSize) {
-//				try {
-//					lock.wait();
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//			queue.add(job);
-//			lock.notifyAll();
-//		}
-
-		while (queue.size() == poolSize) {
-			try {
-				queue.wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+		synchronized (queue){
+			while (queue.size() == poolSize) {
+				try {
+					queue.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
+			queue.add(job);
+			queue.notifyAll();
 		}
-		queue.add(job);
-		lock.notifyAll();
-
 	}
 
 	public int getRunQueueLength() {
@@ -85,7 +57,7 @@ public class ThreadPool {
 		// remember to also synchronize!
 //		throw new UnsupportedOperationException("not implemented");
 
-		synchronized (lock){
+		synchronized (queue){
 			return queue.size();
 		}
 	}
@@ -114,7 +86,6 @@ public class ThreadPool {
 					e.printStackTrace();
 				}
 			}
-
 		}
 	}
 }
