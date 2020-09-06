@@ -4,7 +4,6 @@ import com.masterdevskills.cha3.ReflectionUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
@@ -61,14 +60,9 @@ class ThreadPoolTest {
 
 	@Test
 	public void testIfBlockingQueueUsed() {
-//		var usedBlockingQueue = Stream.of(ThreadPool.class.getDeclaredFields())
-//						.anyMatch(field -> ThreadPool.class.isAssignableFrom(field.getType()));
-//		assertTrue("Expected BlockingQueue to be used in ThreadPool", usedBlockingQueue);
-
 		var usedBlockingQueue = Stream.of(ThreadPool.class.getDeclaredFields())
-				.anyMatch(field -> BlockingQueue.class.isAssignableFrom(field.getType()));
+				.anyMatch(field -> ThreadPool.class.isAssignableFrom(field.getType()));
 		assertTrue("Expected BlockingQueue to be used in ThreadPool", usedBlockingQueue);
-
 	}
 
 	@Test

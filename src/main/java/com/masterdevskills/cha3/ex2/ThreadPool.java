@@ -1,14 +1,14 @@
 package com.masterdevskills.cha3.ex2;
 
 
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.atomic.AtomicInteger;
 
 //TODO: Implement this thread pool using BlockingQueue
 public class ThreadPool {
 
 	private ThreadGroup threadGroup = new ThreadGroup("ThreadGroup");
-	private LinkedBlockingQueue<Runnable> blockingQueue = new LinkedBlockingQueue<>();
+	private BlockingQueue<Runnable> blockingQueue = new LinkedBlockingQueue<>();
 	private volatile boolean keepRunning = true;
 
 
@@ -49,15 +49,41 @@ public class ThreadPool {
 			// remove the next job from the linked list using take()
 			// we then call the run() method on the job
 
-			while (keepRunning){
+			while (keepRunning && !interrupted()){
 				try {
 					take().run();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-					currentThread().interrupt();
+					this.interrupt();
 				}
 			}
 		}
+	}
+
+	public static void main(String[] args) throws InterruptedException {
+		ThreadPool pool = new ThreadPool(10);
+
+		pool.submit(() -> {
+			System.out.println("Running inside: " + Thread.currentThread());
+		});
+
+		pool.submit(() -> {
+			System.out.println("Running inside: " + Thread.currentThread());
+		});
+
+		pool.submit(() -> {
+			System.out.println("Running inside: " + Thread.currentThread());
+		});
+
+		pool.submit(() -> {
+			System.out.println("Running inside: " + Thread.currentThread());
+		});
+
+		Thread.sleep(1000);
+
+		pool.shutdown();
+
+
 	}
 }
 
