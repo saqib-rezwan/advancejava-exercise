@@ -38,6 +38,7 @@ class ThreadPoolTest {
 	}
 
 	private void runThreadPoolFunctionality() throws InterruptedException {
+		//int a = 1;
 		CountDownLatch countDownLatch = new CountDownLatch(20);
 		ThreadPool threadPool = new ThreadPool(10);
 		var start = System.currentTimeMillis();
