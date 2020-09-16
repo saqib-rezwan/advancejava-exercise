@@ -2,13 +2,14 @@ plugins {
     id 'java'
     id 'eclipse' // optional (to generate Eclipse project files)
     id 'idea' // optional (to generate IntelliJ IDEA project files)
+    id "org.sonarqube" version "3.0"
 }
 
 group 'com.masterdevskills'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = JavaVersion.VERSION_14
-targetCompatibility = JavaVersion.VERSION_14
+sourceCompatibility = 13
+targetCompatibility = 13
 
 repositories {
     mavenCentral()
@@ -40,9 +41,13 @@ dependencies {
     }
 }
 
-test {
-    useJUnitPlatform()
-    testLogging {
-        events "passed", "skipped", "failed"
+sonarqube {
+    properties {
+        property "sonar.projectName", "advancejava-exercise"
+        property "sonar.projectKey", "advancejava-exercise-key"
     }
+}
+
+test {
+    ignoreFailures = true
 }
