@@ -13,6 +13,7 @@ class ThreadSafeCounterTest {
 
 	// unnecessary comment out
 	// unnecessary comment out part 2
+	// unnecessary comment out part 3
 	@Test
 	public void testCount() throws InterruptedException {
 		ThreadSafeCounter counter = new ThreadSafeCounter();
