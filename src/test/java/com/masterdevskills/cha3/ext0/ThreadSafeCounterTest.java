@@ -12,6 +12,7 @@ import static org.hamcrest.Matchers.equalTo;
 class ThreadSafeCounterTest {
 
 	// unnecessary comment out
+	// unnecessary comment out part 2
 	@Test
 	public void testCount() throws InterruptedException {
 		ThreadSafeCounter counter = new ThreadSafeCounter();
